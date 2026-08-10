@@ -11,7 +11,7 @@ import {
 import styles from './app.module.scss';
 
 export const App = () => {
-	const [formState, setFormState] =
+	const [articleState, setArticleState] =
 		useState<ArticleStateType>(defaultArticleState);
 
 	return (
@@ -19,14 +19,14 @@ export const App = () => {
 			className={clsx(styles.main)}
 			style={
 				{
-					'--font-family': formState.fontFamilyOption.value,
-					'--font-size': formState.fontSizeOption.value,
-					'--font-color': formState.fontColor.value,
-					'--container-width': formState.contentWidth.value,
-					'--bg-color': formState.backgroundColor.value,
+					'--font-family': articleState.fontFamilyOption.value,
+					'--font-size': articleState.fontSizeOption.value,
+					'--font-color': articleState.fontColor.value,
+					'--container-width': articleState.contentWidth.value,
+					'--bg-color': articleState.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm setFormState={setFormState} />
+			<ArticleParamsForm setArticleState={setArticleState} />
 			<Article />
 		</main>
 	);

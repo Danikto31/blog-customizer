@@ -20,10 +20,12 @@ import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 import { Separator } from 'src/ui/separator';
 
 type ArticleParamsFormProps = {
-	setFormState: React.Dispatch<React.SetStateAction<ArticleStateType>>;
+	setArticleState: React.Dispatch<React.SetStateAction<ArticleStateType>>;
 };
 
-export const ArticleParamsForm = ({ setFormState }: ArticleParamsFormProps) => {
+export const ArticleParamsForm = ({
+	setArticleState,
+}: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [localState, setLocalState] =
 		useState<ArticleStateType>(defaultArticleState);
@@ -33,7 +35,7 @@ export const ArticleParamsForm = ({ setFormState }: ArticleParamsFormProps) => {
 
 	function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
-		setFormState(localState);
+		setArticleState(localState);
 	}
 
 	function onChange(field: keyof ArticleStateType, option: OptionType) {
@@ -45,7 +47,7 @@ export const ArticleParamsForm = ({ setFormState }: ArticleParamsFormProps) => {
 
 	const handleReset = () => {
 		setLocalState(defaultArticleState);
-		setFormState(defaultArticleState);
+		setArticleState(defaultArticleState);
 	};
 
 	return (
