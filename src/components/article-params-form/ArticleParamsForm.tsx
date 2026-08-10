@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowButton } from '../../ui/arrow-button';
 import { Button } from '../../ui/button';
 import clsx from 'clsx';
@@ -16,6 +16,8 @@ import {
 	OptionType,
 } from 'src/constants/articleProps';
 import { RadioGroup } from 'src/ui/radio-group';
+import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
+import { Separator } from 'src/ui/separator';
 
 type ArticleParamsFormProps = {
 	setFormState: React.Dispatch<React.SetStateAction<ArticleStateType>>;
@@ -25,6 +27,9 @@ export const ArticleParamsForm = ({ setFormState }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [localState, setLocalState] =
 		useState<ArticleStateType>(defaultArticleState);
+	const rootRef = useRef(null);
+
+	useOutsideClickClose({ isOpen, rootRef, onChange: setIsOpen });
 
 	function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
@@ -47,7 +52,8 @@ export const ArticleParamsForm = ({ setFormState }: ArticleParamsFormProps) => {
 		<>
 			<ArrowButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
+				className={clsx(styles.container, { [styles.container_open]: isOpen })}
+				ref={rootRef}>
 				<form className={styles.form} onSubmit={handleSubmit}>
 					<Text uppercase weight={800} size={31} family='open-sans'>
 						Задайте параметры
@@ -72,15 +78,16 @@ export const ArticleParamsForm = ({ setFormState }: ArticleParamsFormProps) => {
 						options={fontColors}
 						selected={localState.fontColor}
 						onChange={(option) => onChange('fontColor', option)}></Select>
-					<div className={styles.fontColorContainer}>
-						<Select
-							title='Цвет фона'
-							options={backgroundColors}
-							selected={localState.backgroundColor}
-							onChange={(option) =>
-								onChange('backgroundColor', option)
-							}></Select>
+					<div className={styles.separator}>
+						<Separator></Separator>
 					</div>
+
+					<Select
+						title='Цвет фона'
+						options={backgroundColors}
+						selected={localState.backgroundColor}
+						onChange={(option) => onChange('backgroundColor', option)}></Select>
+
 					<Select
 						title='Ширина контента'
 						options={contentWidthArr}
